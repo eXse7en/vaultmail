@@ -100,15 +100,15 @@ export function HomePage({ initialAddress }: HomePageProps) {
   }, [greeting]);
 
   return (
-    <main className="relative flex min-h-screen flex-col overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_36%),radial-gradient(circle_at_85%_18%,_rgba(16,185,129,0.14),_transparent_32%),linear-gradient(180deg,rgba(2,6,23,1)_0%,rgba(2,10,26,1)_55%,rgba(2,6,23,1)_100%)]">
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-[radial-gradient(circle_at_12%_-5%,rgba(34,211,238,0.2),transparent_34%),radial-gradient(circle_at_88%_14%,rgba(16,185,129,0.16),transparent_30%),linear-gradient(180deg,rgba(2,6,23,1)_0%,rgba(3,12,31,1)_58%,rgba(2,6,23,1)_100%)]">
       {/* Background Blobs */}
       <div className="pointer-events-none absolute left-1/4 top-0 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
 
       {/* Navbar */}
-      <header className="sticky top-0 z-50 border-b border-cyan-200/10 bg-slate-950/60 backdrop-blur-lg">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
+      <header className="sticky top-0 z-50 border-b border-cyan-100/10 bg-slate-950/65 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:h-[4.5rem] md:px-6">
+          <div className="flex items-center gap-2.5 text-lg font-semibold tracking-tight sm:text-xl md:text-[1.35rem]">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-emerald-500 shadow-[0_10px_26px_-12px_rgba(34,211,238,0.95)]">
               <Shield className="h-5 w-5 text-white" />
             </div>
@@ -131,16 +131,16 @@ export function HomePage({ initialAddress }: HomePageProps) {
                     <button
                       type="button"
                       aria-label="Close menu"
-                      className="fixed inset-0 z-40"
+                      className="fixed inset-0 z-40 bg-slate-950/45 backdrop-blur-sm"
                       onClick={() => setShowMenu(false)}
                     />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                      className="absolute right-0 z-50 mt-2 w-56 rounded-2xl border border-white/10 bg-slate-900/90 shadow-2xl overflow-hidden"
+                      className="absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-cyan-100/10 bg-slate-900/92 shadow-[0_24px_70px_-35px_rgba(34,211,238,0.45)]"
                     >
-                      <div className="p-2 space-y-2">
+                      <div className="space-y-2 p-2.5">
                         <div className="px-3 pt-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
                           Menu
                         </div>
@@ -150,43 +150,43 @@ export function HomePage({ initialAddress }: HomePageProps) {
                             setLocale(locale === 'id' ? 'en' : 'id');
                             setShowMenu(false);
                           }}
-                          className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/80 transition-colors hover:bg-white/10"
                         >
-                          <Globe className="h-4 w-4 text-blue-300" />
+                          <Globe className="h-4 w-4 text-cyan-200" />
                           {locale === 'id' ? t.languageEnglish : t.languageIndonesian}
                         </button>
                         <a
                           href="/admin"
-                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/80 transition-colors hover:bg-white/10"
                           onClick={() => setShowMenu(false)}
                         >
-                          <Shield className="h-4 w-4 text-purple-300" />
+                          <Shield className="h-4 w-4 text-cyan-200" />
                           Admin Dashboard
                         </a>
                         <a
                           href="/api-access"
-                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/80 transition-colors hover:bg-white/10"
                           onClick={() => setShowMenu(false)}
                         >
-                          <Code2 className="h-4 w-4 text-blue-300" />
+                          <Code2 className="h-4 w-4 text-cyan-200" />
                           {t.menuApiAccess}
                         </a>
                         <a
                           href="/tools"
-                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/80 transition-colors hover:bg-white/10"
                           onClick={() => setShowMenu(false)}
                         >
-                          <Wrench className="h-4 w-4 text-orange-300" />
+                          <Wrench className="h-4 w-4 text-emerald-200" />
                           {t.menuTools}
                         </a>
                         <a
                           href="https://github.com/eXse7en"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          className="flex items-center gap-2.5 rounded-xl bg-white/5 px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/10"
                           onClick={() => setShowMenu(false)}
                         >
-                          <Shield className="h-4 w-4 text-green-300" />
+                          <Shield className="h-4 w-4 text-emerald-200" />
                           {t.github}
                         </a>
                       </div>
@@ -201,8 +201,12 @@ export function HomePage({ initialAddress }: HomePageProps) {
       
       {/* Content */}
           <div className="flex-1 py-10 md:py-14">
-         <div className="mb-12 mx-auto max-w-3xl space-y-5 px-4 text-center md:mb-14">
-            <h1 className="bg-gradient-to-r from-slate-100 via-cyan-100 to-emerald-100 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-6xl">
+         <div className="mb-12 mx-auto max-w-3xl space-y-6 px-4 text-center md:mb-14">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-cyan-300/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-cyan-100">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+              {t.live} · {retentionLabel}
+            </div>
+            <h1 className="bg-gradient-to-r from-slate-100 via-cyan-100 to-emerald-100 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl md:text-6xl">
               {t.heroTitle} <br/> {t.heroTitleSuffix}
             </h1>
             <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg">
@@ -217,7 +221,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
          />
 
          {/* Features Grid */}
-         <div className="mx-auto mt-24 grid max-w-6xl gap-8 px-4 md:grid-cols-3">
+         <div className="mx-auto mt-20 grid max-w-6xl gap-5 px-4 md:mt-24 md:grid-cols-3 md:gap-6">
             <Feature 
                 icon={<Zap className="h-6 w-6 text-cyan-200" />}
                 title={t.featureInstantTitle}
@@ -237,7 +241,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
 
       </div>
 
-      <footer className="mt-12 border-t border-white/10 py-8 text-center text-sm text-slate-300">
+      <footer className="mt-12 border-t border-cyan-100/10 py-8 text-center text-sm text-slate-300">
         <p>© 2026 {resolvedAppName}. Created with ❤️</p>
       </footer>
     </main>
@@ -246,12 +250,12 @@ export function HomePage({ initialAddress }: HomePageProps) {
 
 function Feature({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
     return (
-        <div className="fitroh-card rounded-2xl p-6 transition-colors hover:bg-white/[0.08]">
+        <div className="fitroh-card h-full rounded-2xl p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/[0.08]">
             <div className="mb-4 w-fit rounded-full border border-cyan-100/20 bg-cyan-300/10 p-3">
                 {icon}
             </div>
             <h3 className="mb-2 text-lg font-bold text-slate-100">{title}</h3>
-            <p className="leading-relaxed text-slate-300">{desc}</p>
+            <p className="max-w-[30ch] leading-relaxed text-slate-300 md:max-w-[34ch]">{desc}</p>
         </div>
     )
 }

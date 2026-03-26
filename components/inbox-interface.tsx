@@ -457,16 +457,19 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
   }, [filterQuery]);
   
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 space-y-8">
+    <div className="mx-auto w-full max-w-6xl space-y-8 px-4 py-4 md:px-6 md:py-6">
       {/* Header / Controls */}
-      <div className="fitroh-card relative z-10 overflow-visible rounded-3xl p-6 md:p-8">
+      <div className="fitroh-card relative z-10 overflow-visible rounded-3xl p-4 sm:p-5 md:p-8">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cyan-300/10 to-transparent" />
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="mb-5 flex flex-col items-center justify-between gap-4 border-b border-white/10 pb-5 md:flex-row">
           <div className="space-y-1 text-center md:text-left">
-            <h2 className="bg-gradient-to-r from-sky-300 to-cyan-200 bg-clip-text text-2xl font-bold text-transparent">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100/85">
+              {t.inboxLabel}
+            </p>
+            <h2 className="bg-gradient-to-r from-slate-100 via-cyan-100 to-emerald-100 bg-clip-text text-2xl font-bold text-transparent">
               {t.inboxTitle}
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm leading-relaxed text-slate-300">
               {t.inboxHintPrefix} {t.inboxHintSuffix}{' '}
               <span className="font-medium text-cyan-300">
                 {retentionLabel || t.retentionOptions.hours24}
@@ -474,9 +477,9 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
               .
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className={`h-2 w-2 rounded-full ${loading ? 'bg-yellow-400 animate-pulse' : 'bg-green-400'}`} />
-            <span className="text-xs text-muted-foreground uppercase tracking-wider font-mono">
+          <div className="fitroh-panel inline-flex items-center gap-2 rounded-full px-3 py-1.5">
+            <span className={`h-2 w-2 rounded-full ${loading ? 'animate-pulse bg-yellow-400' : 'bg-emerald-400'}`} />
+            <span className="font-mono text-[11px] uppercase tracking-wider text-slate-200/90">
                 {loading ? t.syncing : t.live}
             </span>
           </div>
@@ -484,7 +487,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-5">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <div className="grid grid-cols-1 items-center gap-2.5 md:grid-cols-[minmax(0,1fr)_32px_minmax(230px,0.75fr)]">
+            <div className="fitroh-panel grid grid-cols-1 items-center gap-2.5 rounded-2xl p-2 md:grid-cols-[minmax(0,1fr)_32px_minmax(230px,0.75fr)] md:p-2.5">
               <div className="relative flex-1">
               <Input 
                       value={address.split('@')[0]}
@@ -495,7 +498,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                           localStorage.setItem('dispo_address', `${val}@${currentDomain}`);
                       }}
                       onBlur={() => addToHistory(address)}
-                      className="h-12 border-white/10 bg-black/20 pr-4 font-mono text-lg"
+                      className="h-12 border-white/10 bg-slate-900/70 pr-4 font-mono text-lg text-slate-100"
                       placeholder={t.usernamePlaceholder}
                   />
               </div>
@@ -510,7 +513,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                         variant="ghost"
                         onClick={() => setShowDomainMenu((prev) => !prev)}
                         className={cn(
-                          "h-12 w-full justify-start rounded-md border border-white/10 bg-white/5 pl-3 pr-8 text-sm font-mono hover:bg-white/10 glass",
+                          "h-12 w-full justify-start rounded-md border border-white/10 bg-slate-900/70 pl-3 pr-8 text-sm font-mono text-slate-100 hover:bg-slate-800/80",
                           showDomainMenu && "bg-white/10"
                         )}
                     >
@@ -531,9 +534,9 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                                    className="absolute z-50 mt-2 w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl glass overflow-hidden"
+                                    className="fitroh-panel absolute z-[70] mt-2 w-full overflow-hidden rounded-xl border border-cyan-100/20 shadow-2xl"
                                 >
-                                    <div className="max-h-60 overflow-y-auto custom-scrollbar p-2 space-y-1">
+                                    <div className="max-h-60 space-y-1 overflow-y-auto p-2 custom-scrollbar">
                                         {savedDomains.map((d) => (
                                             <button
                                                 key={d}
@@ -550,7 +553,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                                 className={cn(
                                                   "w-full text-left px-3 py-2 rounded-lg font-mono text-sm transition-colors",
                                                   d === domain
-                                                    ? "bg-white/15 text-white"
+                                                    ? "bg-cyan-200/20 text-cyan-50"
                                                     : "text-gray-200 hover:bg-white/10"
                                                 )}
                                             >
@@ -700,14 +703,14 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     )}
                 </AnimatePresence>
             </div>
-            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 flex-1 sm:flex-none sm:min-w-[120px]">
+            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 flex-1 border border-cyan-100/10 bg-slate-700/40 text-slate-100 hover:bg-slate-600/45 sm:flex-none sm:min-w-[124px] sm:px-5">
               <Copy className="mr-2 h-4 w-4" /> {t.copy}
             </Button>
-            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 flex-1 border-white/10 hover:bg-white/5 sm:flex-none sm:min-w-[120px]">
+            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 flex-1 border-cyan-100/20 bg-cyan-200/5 text-cyan-100 hover:bg-cyan-200/10 sm:flex-none sm:min-w-[124px] sm:px-5">
               <RefreshCw className="mr-2 h-4 w-4" /> {t.newAlias}
             </Button>
-          </div>
         </div>
+      </div>
 
         <SettingsDialog
             open={isAddDomainOpen}
@@ -726,25 +729,26 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[80vh]">
+      <div className="grid h-auto grid-cols-1 gap-6 md:h-[80vh] md:grid-cols-3">
         {/* Email List */}
-        <div className="md:col-span-1 glass-card rounded-2xl overflow-hidden flex flex-col min-h-[45vh] md:min-h-0">
-            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
-                <h3 className="font-semibold flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-blue-400" /> {t.inboxLabel}
+        <div className="fitroh-panel flex min-h-[45vh] flex-col overflow-hidden rounded-2xl md:col-span-1 md:min-h-0">
+            <div className="flex items-center justify-between border-b border-white/10 bg-black/25 p-4">
+                <h3 className="flex items-center gap-2 font-semibold">
+                    <Mail className="h-4 w-4 text-cyan-300" /> {t.inboxLabel}
                     <span className="text-xs bg-white/10 px-2 py-0.5 rounded-full text-muted-foreground">{emailCount}</span>
                 </h3>
-                <div className="flex items-center gap-1">
+                <div className="flex h-9 items-center gap-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => setShowFilter((prev) => !prev)}
                     aria-pressed={showFilter}
                     aria-label={t.inboxFilterPlaceholder}
+                    className="h-9 w-9"
                   >
                     <Search className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => fetchEmails()} disabled={loading}>
+                  <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => fetchEmails()} disabled={loading}>
                       <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
                   </Button>
                 </div>
@@ -785,7 +789,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                 onClick={() => setSelectedEmail(email)}
                                 className={cn(
                                     "p-4 rounded-xl cursor-pointer transition-all border border-transparent hover:bg-white/5",
-                                    selectedEmail?.id === email.id ? "bg-white/10 border-blue-500/30" : "bg-black/20"
+                                    selectedEmail?.id === email.id ? "border-cyan-400/30 bg-white/10" : "bg-black/20"
                                 )}
                             >
                                 <div className="flex justify-between items-start mb-1">
@@ -794,7 +798,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                         {formatDistanceToNow(new Date(email.receivedAt), { addSuffix: true })}
                                     </span>
                                 </div>
-                                <h4 className="text-sm font-semibold truncate text-blue-100">{email.subject}</h4>
+                                <h4 className="truncate text-sm font-semibold text-cyan-50">{email.subject}</h4>
                                 <p className="text-xs text-muted-foreground truncate mt-1">{email.text.slice(0, 50)}...</p>
                             </motion.div>
                         )})
@@ -804,7 +808,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
         </div>
 
         {/* Email Content */}
-        <div className="md:col-span-2 glass-card rounded-2xl overflow-hidden flex flex-col h-full min-h-[55vh] md:min-h-0 bg-black/40">
+        <div className="fitroh-panel flex h-full min-h-[55vh] flex-col overflow-hidden rounded-2xl bg-black/40 md:col-span-2 md:min-h-0">
             {selectedEmail ? (
                 <div className="flex flex-col h-full">
                     {/* Header */}
@@ -822,7 +826,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                             </div>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
-                            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white text-xs">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 text-xs font-bold text-white">
                                 {selectedSender?.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex flex-col">
