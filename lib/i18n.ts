@@ -1,3 +1,5 @@
+import { DEFAULT_APP_NAME } from '@/lib/branding';
+
 export const SUPPORTED_LOCALES = ['en', 'id'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -11,7 +13,7 @@ export const DEFAULT_LOCALE = (() => {
 
 const translations = {
   en: {
-    appName: 'YS Mail',
+    appName: 'DEFAULT_APP_NAME',
     github: 'GitHub',
     heroTitle: 'Instant Inbox',
     heroTitleSuffix: 'Built for Builders',
@@ -91,7 +93,7 @@ const translations = {
     domainStatusUnavailable: 'Domain status is unavailable.',
     apiAccessTitle: 'Developer API Access',
     apiAccessSubtitle:
-      'Use these endpoints to integrate YS Mail into your workflows.',
+      'Use these endpoints to integrate your mail into your workflows.',
     apiAccessCta: 'View documentation',
     apiAccessEndpointsTitle: 'Core endpoints',
     apiAccessWebhookTitle: 'Webhook',
@@ -205,7 +207,7 @@ const translations = {
     twoFaNext: 'Next OTP',
   },
   id: {
-    appName: 'YS Mail',
+    appName: DEFAULT_APP_NAME,
     github: 'GitHub',
     heroTitle: 'Inbox Instan',
     heroTitleSuffix: 'Untuk Para Builder',
@@ -285,7 +287,7 @@ const translations = {
     domainStatusUnavailable: 'Masa aktif domain belum tersedia.',
     apiAccessTitle: 'Akses API Developer',
     apiAccessSubtitle:
-      'Gunakan endpoint berikut untuk integrasi YS Mail ke workflow Anda.',
+      'Gunakan endpoint berikut untuk integrasi aplikasi mail Anda ke workflow Anda.',
     apiAccessCta: 'Lihat dokumentasi',
     apiAccessEndpointsTitle: 'Endpoint utama',
     apiAccessWebhookTitle: 'Webhook',
