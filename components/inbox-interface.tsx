@@ -459,7 +459,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 space-y-8">
       {/* Header / Controls */}
-      <div className="fitroh-card relative z-10 overflow-hidden rounded-3xl p-6 md:p-8">
+      <div className="fitroh-card relative z-10 overflow-visible rounded-3xl p-6 md:p-8">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cyan-300/10 to-transparent" />
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="space-y-1 text-center md:text-left">
