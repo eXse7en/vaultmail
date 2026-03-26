@@ -457,17 +457,18 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
   }, [filterQuery]);
   
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 md:p-8 space-y-8">
+    <div className="w-full max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 space-y-8">
       {/* Header / Controls */}
-      <div className="glass-card rounded-2xl p-6 md:p-8 space-y-6 relative z-10">
+      <div className="fitroh-card relative z-10 overflow-hidden rounded-3xl p-6 md:p-8">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cyan-300/10 to-transparent" />
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="space-y-1 text-center md:text-left">
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+            <h2 className="bg-gradient-to-r from-sky-300 to-cyan-200 bg-clip-text text-2xl font-bold text-transparent">
               {t.inboxTitle}
             </h2>
             <p className="text-muted-foreground text-sm">
               {t.inboxHintPrefix} {t.inboxHintSuffix}{' '}
-              <span className="text-purple-400 font-medium">
+              <span className="font-medium text-cyan-300">
                 {retentionLabel || t.retentionOptions.hours24}
               </span>
               .
@@ -481,9 +482,9 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1 flex flex-col gap-2">
-            <div className="flex gap-2">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-5">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <div className="grid grid-cols-1 items-center gap-2.5 md:grid-cols-[minmax(0,1fr)_32px_minmax(230px,0.75fr)]">
               <div className="relative flex-1">
               <Input 
                       value={address.split('@')[0]}
@@ -494,14 +495,14 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                           localStorage.setItem('dispo_address', `${val}@${currentDomain}`);
                       }}
                       onBlur={() => addToHistory(address)}
-                      className="pr-4 font-mono text-lg bg-black/20 border-white/10 h-12"
+                      className="h-12 border-white/10 bg-black/20 pr-4 font-mono text-lg"
                       placeholder={t.usernamePlaceholder}
                   />
               </div>
-              <div className="relative flex items-center">
-                   <span className="text-muted-foreground text-lg px-2">@</span>
+              <div className="relative flex items-center justify-center">
+                   <span className="px-2 text-lg text-muted-foreground">@</span>
               </div>
-              <div className="relative flex-1 max-w-[250px] flex gap-2">
+              <div className="relative w-full">
                    {/* Domain Selection Logic */}
                    <div className="relative w-full">
                     <Button
@@ -509,7 +510,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                         variant="ghost"
                         onClick={() => setShowDomainMenu((prev) => !prev)}
                         className={cn(
-                          "w-full h-12 pl-3 pr-8 justify-start rounded-md border border-white/10 bg-white/5 text-sm font-mono hover:bg-white/10 glass",
+                          "h-12 w-full justify-start rounded-md border border-white/10 bg-white/5 pl-3 pr-8 text-sm font-mono hover:bg-white/10 glass",
                           showDomainMenu && "bg-white/10"
                         )}
                     >
@@ -520,7 +521,12 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     <AnimatePresence>
                         {showDomainMenu && (
                             <>
-                                <div className="fixed inset-0 z-40" onClick={() => setShowDomainMenu(false)} />
+                                <button
+                                  type="button"
+                                  aria-label="Close domain menu"
+                                  className="fixed inset-0 z-40"
+                                  onClick={() => setShowDomainMenu(false)}
+                                />
                                 <motion.div
                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -559,7 +565,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                  </div>
             </div>
             </div>
-            <div className="text-xs text-muted-foreground">
+            <div className="min-h-[1.25rem] pl-1 text-xs text-slate-300/85">
               {domainStatusLoading ? (
                 <span>{t.domainStatusChecking}</span>
               ) : domainExpirationDate ? (
@@ -568,7 +574,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                 ) : (
                   <span>
                     {t.domainStatusEndsOn}{' '}
-                    <span className="text-purple-200 font-medium">
+                    <span className="font-medium text-cyan-200">
                       {domainExpirationDate.toLocaleDateString()}
                     </span>
                   </span>
@@ -578,13 +584,13 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
               )}
             </div>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex w-full flex-wrap items-center gap-2 sm:flex-nowrap lg:w-auto lg:self-start lg:justify-end">
             {/* Settings Button */}
             <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsAddDomainOpen(true)}
-                className="h-12 w-12 border border-white/10 hover:bg-white/5 text-purple-400 hover:text-purple-300"
+                className="h-12 w-12 shrink-0 border border-white/10 text-cyan-300 hover:bg-white/5 hover:text-cyan-200"
                 title={t.settingsTitle}
             >
                 <Settings2 className="h-5 w-5" />
@@ -595,7 +601,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     onClick={() => setShowHistory(!showHistory)} 
                     variant="ghost" 
                     size="icon" 
-                    className={cn("h-12 w-12 border border-white/10 hover:bg-white/5 relative", showHistory && "bg-white/10 ring-2 ring-white/10")}
+                    className={cn("relative h-12 w-12 shrink-0 border border-white/10 hover:bg-white/5", showHistory && "bg-white/10 ring-2 ring-cyan-200/20")}
                     title={t.historyTitle}
                 >
                     <History className="h-5 w-5" />
@@ -607,7 +613,12 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                 <AnimatePresence>
                     {showHistory && (
                         <>
-                            <div className="fixed inset-0 z-40" onClick={() => setShowHistory(false)} />
+                            <button
+                              type="button"
+                              aria-label="Close history"
+                              className="fixed inset-0 z-40"
+                              onClick={() => setShowHistory(false)}
+                            />
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.96 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -620,6 +631,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                     <div className="flex items-center gap-2">
                                         {history.length > 0 && (
                                             <button 
+                                                type="button"
                                                 onClick={() => {
                                                     setHistory([]);
                                                     localStorage.removeItem('dispo_history');
@@ -661,7 +673,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                                     }}
                                                 >
                                                     <p className="font-mono text-sm truncate text-gray-200">{histAddr}</p>
-                                                    <p className="text-[11px] text-purple-200/80 truncate mt-0.5">
+                                                    <p className="mt-0.5 truncate text-[11px] text-cyan-200/75">
                                                         {emails.length > 0 && address === histAddr ? t.historyActive : t.historyRestore}
                                                     </p>
                                                 </button>
@@ -688,10 +700,10 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     )}
                 </AnimatePresence>
             </div>
-            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 w-full md:w-auto">
+            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 flex-1 sm:flex-none sm:min-w-[120px]">
               <Copy className="mr-2 h-4 w-4" /> {t.copy}
             </Button>
-            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 border-white/10 hover:bg-white/5 w-full md:w-auto">
+            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 flex-1 border-white/10 hover:bg-white/5 sm:flex-none sm:min-w-[120px]">
               <RefreshCw className="mr-2 h-4 w-4" /> {t.newAlias}
             </Button>
           </div>

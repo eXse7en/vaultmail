@@ -100,16 +100,16 @@ export function HomePage({ initialAddress }: HomePageProps) {
   }, [greeting]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-background/50 relative overflow-hidden flex flex-col">
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_36%),radial-gradient(circle_at_85%_18%,_rgba(16,185,129,0.14),_transparent_32%),linear-gradient(180deg,rgba(2,6,23,1)_0%,rgba(2,10,26,1)_55%,rgba(2,6,23,1)_100%)]">
       {/* Background Blobs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="pointer-events-none absolute left-1/4 top-0 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
 
       {/* Navbar */}
-      <header className="border-b border-white/5 bg-background/50 backdrop-blur-md sticky top-0 z-50">
+      <header className="sticky top-0 z-50 border-b border-cyan-200/10 bg-slate-950/60 backdrop-blur-lg">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 font-bold text-xl">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-emerald-500 shadow-[0_10px_26px_-12px_rgba(34,211,238,0.95)]">
               <Shield className="h-5 w-5 text-white" />
             </div>
             <span>{resolvedAppName}</span>
@@ -120,18 +120,20 @@ export function HomePage({ initialAddress }: HomePageProps) {
                 type="button"
                 variant="ghost"
                 onClick={() => setShowMenu((prev) => !prev)}
-                className={cn(
-                  "h-12 w-12 rounded-full border border-white/10 bg-white/10 text-white",
-                  showMenu && "bg-white/10"
-                )}
+                className={cn("h-12 w-12 rounded-full border border-cyan-200/20 bg-white/10 text-white", showMenu && "bg-white/15")}
               >
-                <Menu className="h-5 w-5 text-blue-200" />
+                <Menu className="h-5 w-5 text-cyan-100" />
               </Button>
 
               <AnimatePresence>
                 {showMenu && (
                   <>
-                    <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+                    <button
+                      type="button"
+                      aria-label="Close menu"
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowMenu(false)}
+                    />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -178,7 +180,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
                           {t.menuTools}
                         </a>
                         <a
-                          href="https://github.com/yasirarism"
+                          href="https://github.com/eXse7en"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
@@ -198,12 +200,12 @@ export function HomePage({ initialAddress }: HomePageProps) {
       </header>
       
       {/* Content */}
-          <div className="flex-1 py-12">
-         <div className="text-center max-w-2xl mx-auto px-4 mb-12 space-y-4">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/50">
+          <div className="flex-1 py-10 md:py-14">
+         <div className="mb-12 mx-auto max-w-3xl space-y-5 px-4 text-center md:mb-14">
+            <h1 className="bg-gradient-to-r from-slate-100 via-cyan-100 to-emerald-100 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-6xl">
               {t.heroTitle} <br/> {t.heroTitleSuffix}
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg">
               {t.heroSubtitle}
             </p>
          </div>
@@ -215,19 +217,19 @@ export function HomePage({ initialAddress }: HomePageProps) {
          />
 
          {/* Features Grid */}
-         <div className="max-w-6xl mx-auto px-4 mt-24 grid md:grid-cols-3 gap-8">
+         <div className="mx-auto mt-24 grid max-w-6xl gap-8 px-4 md:grid-cols-3">
             <Feature 
-                icon={<Zap className="h-6 w-6 text-yellow-400" />}
+                icon={<Zap className="h-6 w-6 text-cyan-200" />}
                 title={t.featureInstantTitle}
                 desc={t.featureInstantDesc}
             />
             <Feature 
-                icon={<Shield className="h-6 w-6 text-green-400" />}
+                icon={<Shield className="h-6 w-6 text-emerald-200" />}
                 title={t.featurePrivacyTitle}
                 desc={t.featurePrivacyDesc}
             />
             <Feature 
-                icon={<Globe className="h-6 w-6 text-blue-400" />}
+                icon={<Globe className="h-6 w-6 text-cyan-200" />}
                 title={t.featureCustomTitle}
                 desc={t.featureCustomDesc}
             />
@@ -235,7 +237,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
 
       </div>
 
-      <footer className="border-t border-white/5 py-8 mt-12 text-center text-muted-foreground text-sm">
+      <footer className="mt-12 border-t border-white/10 py-8 text-center text-sm text-slate-300">
         <p>© 2026 {resolvedAppName}. Created with ❤️</p>
       </footer>
     </main>
@@ -244,12 +246,12 @@ export function HomePage({ initialAddress }: HomePageProps) {
 
 function Feature({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
     return (
-        <div className="p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-            <div className="mb-4 p-3 rounded-full bg-white/5 w-fit">
+        <div className="fitroh-card rounded-2xl p-6 transition-colors hover:bg-white/[0.08]">
+            <div className="mb-4 w-fit rounded-full border border-cyan-100/20 bg-cyan-300/10 p-3">
                 {icon}
             </div>
-            <h3 className="text-lg font-bold mb-2">{title}</h3>
-            <p className="text-muted-foreground leading-relaxed">{desc}</p>
+            <h3 className="mb-2 text-lg font-bold text-slate-100">{title}</h3>
+            <p className="leading-relaxed text-slate-300">{desc}</p>
         </div>
     )
 }

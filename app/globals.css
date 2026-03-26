@@ -47,6 +47,9 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    --fitroh-cyan: 188 95% 52%;
+    --fitroh-emerald: 158 72% 42%;
+    --fitroh-surface: 220 49% 10%;
   }
 }
 
@@ -55,7 +58,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at 8% -10%, rgba(34, 211, 238, 0.13), transparent 30%),
+      radial-gradient(circle at 92% 10%, rgba(16, 185, 129, 0.11), transparent 28%);
   }
 }
 
@@ -71,4 +77,11 @@
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.fitroh-card {
+    background: linear-gradient(150deg, rgba(8, 30, 48, 0.78), rgba(8, 22, 40, 0.84));
+    border: 1px solid rgba(125, 211, 252, 0.14);
+    box-shadow: 0 22px 70px -44px rgba(34, 211, 238, 0.7);
+    backdrop-filter: blur(18px);
 }
