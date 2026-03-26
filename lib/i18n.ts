@@ -92,8 +92,7 @@ const translations = {
     domainStatusEndsOn: 'Domain expires on:',
     domainStatusUnavailable: 'Domain status is unavailable.',
     apiAccessTitle: 'Developer API Access',
-    apiAccessSubtitle:
-      'Use these endpoints to integrate your mail into your workflows.',
+    apiAccessSubtitle: 'Use these endpoints to integrate your mail into your workflows.',
     apiAccessCta: 'View documentation',
     apiAccessEndpointsTitle: 'Core endpoints',
     apiAccessWebhookTitle: 'Webhook',
