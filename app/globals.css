@@ -84,8 +84,10 @@
       radial-gradient(circle at 15% -10%, rgba(34, 211, 238, 0.18), transparent 30%),
       radial-gradient(circle at 88% 5%, rgba(16, 185, 129, 0.14), transparent 28%),
       linear-gradient(150deg, rgba(8, 30, 48, 0.8), rgba(8, 22, 40, 0.88));
-    border: 1px solid rgba(125, 211, 252, 0.18);
-    box-shadow: 0 26px 75px -46px rgba(34, 211, 238, 0.76);
+    border: 1px solid rgba(125, 211, 252, 0.14);
+    box-shadow:
+      0 18px 48px -38px rgba(34, 211, 238, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(18px);
 }
 
