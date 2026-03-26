@@ -13,7 +13,7 @@ export const DEFAULT_LOCALE = (() => {
 
 const translations = {
   en: {
-    appName: 'DEFAULT_APP_NAME',
+    appName: DEFAULT_APP_NAME,
     github: 'GitHub',
     heroTitle: 'Instant Inbox',
     heroTitleSuffix: 'Built for Builders',
