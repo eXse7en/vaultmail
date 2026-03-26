@@ -587,13 +587,13 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
               )}
             </div>
           </div>
-          <div className="flex w-full flex-wrap items-center gap-2 sm:flex-nowrap lg:w-auto lg:self-start lg:justify-end">
+          <div className="fitroh-panel flex w-full flex-wrap items-center gap-2 rounded-2xl p-2 sm:flex-nowrap lg:w-auto lg:self-start lg:justify-end lg:p-2.5">
             {/* Settings Button */}
             <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsAddDomainOpen(true)}
-                className="h-12 w-12 shrink-0 border border-white/10 text-cyan-300 hover:bg-white/5 hover:text-cyan-200"
+                className="h-12 w-12 shrink-0 border border-white/10 bg-slate-900/60 text-cyan-300 hover:bg-slate-800/80 hover:text-cyan-200"
                 title={t.settingsTitle}
             >
                 <Settings2 className="h-5 w-5" />
@@ -604,7 +604,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     onClick={() => setShowHistory(!showHistory)} 
                     variant="ghost" 
                     size="icon" 
-                    className={cn("relative h-12 w-12 shrink-0 border border-white/10 hover:bg-white/5", showHistory && "bg-white/10 ring-2 ring-cyan-200/20")}
+                    className={cn("relative h-12 w-12 shrink-0 border border-white/10 bg-slate-900/60 hover:bg-slate-800/80", showHistory && "bg-white/10 ring-2 ring-cyan-200/20")}
                     title={t.historyTitle}
                 >
                     <History className="h-5 w-5" />
@@ -703,10 +703,10 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     )}
                 </AnimatePresence>
             </div>
-            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 flex-1 border border-cyan-100/10 bg-slate-700/40 text-slate-100 hover:bg-slate-600/45 sm:flex-none sm:min-w-[124px] sm:px-5">
+            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 flex-1 border border-cyan-100/20 bg-slate-700/55 text-slate-100 hover:bg-slate-600/65 sm:flex-none sm:min-w-[132px] sm:px-5">
               <Copy className="mr-2 h-4 w-4" /> {t.copy}
             </Button>
-            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 flex-1 border-cyan-100/20 bg-cyan-200/5 text-cyan-100 hover:bg-cyan-200/10 sm:flex-none sm:min-w-[124px] sm:px-5">
+            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 flex-1 border-cyan-200/35 bg-gradient-to-r from-cyan-400/15 to-emerald-400/15 text-cyan-50 hover:from-cyan-400/25 hover:to-emerald-400/25 sm:flex-none sm:min-w-[132px] sm:px-5">
               <RefreshCw className="mr-2 h-4 w-4" /> {t.newAlias}
             </Button>
         </div>
