@@ -67,6 +67,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
   const [currentPage, setCurrentPage] = useState(1);
   const previousEmailIds = useRef<Set<string>>(new Set());
   const hasLoadedEmails = useRef(false);
+  const fetchInFlight = useRef(false);
 
   const selectedSender = selectedEmail ? getSenderInfo(selectedEmail.from) : null;
   const domainExpirationDate = domainExpiration ? new Date(domainExpiration) : null;
@@ -143,15 +144,15 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
     if (!html) return '';
 
     if (typeof window === 'undefined') {
-      return html
-        .replace(/<style[\s\S]*?<\/style>/gi, '')
-        .replace(/<script[\s\S]*?<\/script>/gi, '')
-        .replace(/<link[^>]*rel=["']?stylesheet["']?[^>]*>/gi, '');
+      return html.replace(/<script[\s\S]*?<\/script>/gi, '');
     }
 
     const doc = new DOMParser().parseFromString(html, 'text/html');
-    doc.querySelectorAll('style, script, link[rel="stylesheet"]').forEach((node) => node.remove());
-    return doc.body.innerHTML || '';
+    doc.querySelectorAll('script').forEach((node) => node.remove());
+    const headStyles = Array.from(doc.head.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map((node) => node.outerHTML)
+      .join('');
+    return `${headStyles}${doc.body.innerHTML || ''}`;
   }, []);
 
   const normalizeContentId = useCallback((value?: string) => {
@@ -190,6 +191,25 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
     },
     [normalizeContentId]
   );
+
+  const getListPreviewText = useCallback((email: Email) => {
+    const source = email.html || email.text || '';
+    const plain = (() => {
+      if (typeof window === 'undefined') {
+        return source.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ');
+      }
+      const doc = new DOMParser().parseFromString(source, 'text/html');
+      doc.querySelectorAll('script, style').forEach((n) => n.remove());
+      return doc.body.textContent || '';
+    })();
+    const cleaned = plain
+      .split('\n')
+      .filter((line) => !/^(delivered-to|from|to|cc|subject|date|message-id):/i.test(line.trim()))
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return cleaned || '(No preview available)';
+  }, []);
 
   const highlightVerificationCodes = useCallback((html: string) => {
     if (!html || typeof window === 'undefined') {
@@ -395,12 +415,28 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
     toast.success(t.toastCopied);
   };
 
-  const fetchEmails = useCallback(async () => {
+  const fetchEmails = useCallback(async (forceResync = false) => {
     if (!address) return;
+    if (fetchInFlight.current) return;
+    fetchInFlight.current = true;
     try {
       setLoading(true);
-      const res = await fetch(`/api/inbox?address=${encodeURIComponent(address)}&t=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/inbox?address=${encodeURIComponent(address)}&t=${Date.now()}${forceResync ? '&resync=1' : ''}`, { cache: 'no-store' });
       const data = await res.json();
+      if (forceResync) {
+        toast.info('IMAP resync dijalankan, mengambil ulang email dari server.');
+      }
+      if (data?.imapDebug) {
+        console.info('[IMAP_SYNC_DEBUG]', { address, ...data.imapDebug });
+      }
+      if (data?.imapError) {
+        toast.error(`IMAP sync error: ${data.imapMessage || 'Unknown error'}`);
+        console.warn('[IMAP_SYNC_ERROR]', {
+          address,
+          checkedAt: data.checkedAt,
+          message: data.imapMessage || 'Unknown error'
+        });
+      }
       if (data.emails) {
         // Only update if changes to avoid jitter, or just replace for now
         // De-dupe could be handled here
@@ -414,6 +450,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
       console.error(e);
     } finally {
       setLoading(false);
+      fetchInFlight.current = false;
     }
   }, [address]);
 
@@ -811,7 +848,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[80vh]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[88vh]">
         {/* Email List */}
         <div className="md:col-span-1 glass-card rounded-2xl overflow-hidden flex flex-col min-h-[45vh] md:min-h-0">
             <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
@@ -834,7 +871,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                   >
                     <Search className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => fetchEmails()} disabled={loading}>
+                  <Button variant="ghost" size="icon" onClick={() => fetchEmails(true)} disabled={loading}>
                       <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
                   </Button>
                 </div>
@@ -890,7 +927,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                                 <h4 className="text-sm font-semibold truncate text-blue-100">{email.subject}</h4>
                                 <div className="mt-1 flex items-center gap-2">
                                   <p className="flex-1 text-xs text-muted-foreground truncate">
-                                    {email.text.slice(0, 50)}...
+                                    {getListPreviewText(email).slice(0, 90)}
                                   </p>
                                   <Button
                                     type="button"
@@ -927,7 +964,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
         </div>
 
         {/* Email Content */}
-        <div className="md:col-span-2 glass-card rounded-2xl overflow-hidden flex flex-col h-auto md:h-full min-h-[50vh] md:min-h-0 bg-black/40">
+        <div className="md:col-span-2 glass-card rounded-2xl overflow-hidden flex flex-col h-auto md:h-full min-h-[62vh] md:min-h-0 bg-black/40">
             {selectedEmail ? (
                 <div className="flex flex-col h-full">
                     {/* Header */}
@@ -993,19 +1030,16 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     
                     {/* Body */}
                     <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 md:p-6 bg-white">
-                        <div
-                          onClick={handleEmailBodyClick}
-                          className="email-content prose prose-sm md:prose-base lg:prose-lg max-w-none overflow-x-hidden break-words text-black prose-img:max-w-full prose-pre:overflow-x-auto prose-a:text-green-600 prose-a:underline hover:prose-a:text-green-700"
-                          dangerouslySetInnerHTML={{
-                            __html: highlightVerificationCodes(
-                              resolveInlineImages(
-                                stripEmailStyles(
-                                  selectedEmail.html || `<p>${selectedEmail.text}</p>`
-                                ),
-                                selectedEmail.attachments
-                              )
-                            ),
-                          }}
+                        <iframe
+                          title="email-preview"
+                          className="h-full w-full border-0"
+                          sandbox="allow-popups allow-popups-to-escape-sandbox"
+                          srcDoc={`<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1" /><style>html,body{margin:0;padding:0;max-width:100%;overflow-wrap:anywhere;}img{max-width:100%;height:auto;}table{max-width:100% !important;}</style></head><body>${highlightVerificationCodes(
+                            resolveInlineImages(
+                              stripEmailStyles(selectedEmail.html || `<p>${selectedEmail.text}</p>`),
+                              selectedEmail.attachments
+                            )
+                          )}</body></html>`}
                         />
                     </div>
                 </div>

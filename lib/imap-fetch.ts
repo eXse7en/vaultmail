@@ -51,7 +51,7 @@ const readConfig = async (): Promise<ImapConfig> => {
   };
 };
 
-const lastUidKey = (address: string) => `imap:lastuid:${address.toLowerCase()}`;
+export const lastUidKey = (address: string) => `imap:lastuid:${address.toLowerCase()}`;
 
 const parseHeaders = (raw: string) => {
   const lines = raw.split(/\r?\n/);
@@ -99,7 +99,28 @@ const collectRecipientText = (headers: Map<string, string>) => {
     headers.get('x-original-to') || '',
     headers.get('envelope-to') || ''
   ];
-  return decodeMimeEncodedWords(values.join(' ').toLowerCase());
+  return decodeMimeEncodedWords(values.join(' ')).toLowerCase();
+};
+
+
+
+const extractEmailAddresses = (text: string) => {
+  const matches = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) || [];
+  return [...new Set(matches.map((item) => item.toLowerCase()))];
+};
+
+
+const getHeaderFromRawResponse = (raw: string, header: string) => {
+  const pattern = new RegExp(`(?:\r?\n|^)${header}:\s*([^\r\n]+)`, 'i');
+  const match = raw.match(pattern);
+  return match?.[1]?.trim() || '';
+};
+
+const parseReceivedAt = (rawDate?: string) => {
+  if (!rawDate) return new Date().toISOString();
+  const ts = Date.parse(rawDate);
+  if (!Number.isFinite(ts)) return new Date().toISOString();
+  return new Date(ts).toISOString();
 };
 
 const normalizeBodyText = (raw: string, transferEncoding?: string) => {
@@ -118,6 +139,50 @@ const normalizeBodyText = (raw: string, transferEncoding?: string) => {
   return trimmed;
 };
 
+
+
+
+const extractHtmlFromRawBody = (raw: string) => {
+  const pattern = /Content-Type:\s*text\/html[^\r\n]*(?:\r?\n[\t ].*)*\r?\n\r?\n([\s\S]*?)(?:\r?\n--[^\r\n]+|$)/i;
+  const htmlMatch = raw.match(pattern);
+  if (!htmlMatch) return '';
+  const section = htmlMatch[1].trim();
+  const encodingMatch = htmlMatch[0].match(/Content-Transfer-Encoding:\s*([^\r\n;]+)/i);
+  return normalizeBodyText(section, encodingMatch?.[1]);
+};
+
+
+const extractHtmlFromAnyContent = (raw: string) => {
+  const decoded = normalizeBodyText(raw, 'quoted-printable');
+  const htmlDoc = decoded.match(/<html[\s\S]*<\/html>/i);
+  if (htmlDoc) return htmlDoc[0];
+  const bodyDoc = decoded.match(/<body[\s\S]*<\/body>/i);
+  if (bodyDoc) return bodyDoc[0];
+  const fragment = decoded.match(/<table[\s\S]*<\/table>/i);
+  return fragment?.[0] || '';
+};
+
+
+const stripMailHeadersFromPreview = (text: string) => {
+  const lines = text.split('\n');
+  const filtered = lines.filter((line) => !/^(delivered-to|from|to|cc|subject|date|message-id):/i.test(line.trim()));
+  return filtered.join('\n');
+};
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const buildInboxPreview = (raw: string) => {
+  const withoutTags = raw.replace(/<[^>]+>/g, ' ');
+  const oneLine = withoutTags.replace(/\s+/g, ' ').trim();
+  if (!oneLine) return '(No preview available)';
+  return oneLine.length > 240 ? `${oneLine.slice(0, 237)}...` : oneLine;
+};
 
 const extractLiterals = (raw: string) => {
   const out: string[] = [];
@@ -179,10 +244,10 @@ export const testImapConnection = async (config: {
 };
 
 export const fetchFromImap = async (address: string, existingSourceIds: Set<string>) => {
+  const debug = { totalUids: 0, recipientFiltered: 0, duplicateFiltered: 0, returned: 0 };
   const cfg = await readConfig();
-  if (!cfg.enabled || !cfg.host || !cfg.user || !cfg.password || !cfg.tls) return [] as ImapEmail[];
+  if (!cfg.enabled || !cfg.host || !cfg.user || !cfg.password || !cfg.tls) return { emails: [] as ImapEmail[], debug };
 
-  const domain = address.split('@')[1]?.toLowerCase();
   const socket = tls.connect({ host: cfg.host, port: cfg.port, servername: cfg.host, rejectUnauthorized: cfg.rejectUnauthorized });
   await new Promise<void>((resolve, reject) => { socket.once('data', () => resolve()); socket.once('error', reject); });
 
@@ -198,50 +263,82 @@ export const fetchFromImap = async (address: string, existingSourceIds: Set<stri
     );
     const idsLine = search.split('\n').find((l) => l.includes('* SEARCH')) || '';
     const ids = idsLine.replace(/.*\* SEARCH\s*/, '').trim().split(/\s+/).filter(Boolean).slice(-cfg.maxFetch);
+    debug.totalUids = ids.length;
 
     const out: ImapEmail[] = [];
     let maxSeenUid = lastUid;
     for (const uid of ids) {
       const uidNum = Number(uid);
+      if (Number.isFinite(uidNum) && uidNum > maxSeenUid) maxSeenUid = uidNum;
       const res = await runImapCommand(
         socket,
         `f${uid}`,
-        `UID FETCH ${uid} (BODY.PEEK[HEADER.FIELDS (FROM TO CC DELIVERED-TO X-ORIGINAL-TO ENVELOPE-TO SUBJECT DATE MESSAGE-ID CONTENT-TRANSFER-ENCODING)] BODY.PEEK[TEXT]<0.50000>)`
+        `UID FETCH ${uid} (BODY.PEEK[HEADER.FIELDS (FROM TO CC DELIVERED-TO X-ORIGINAL-TO ENVELOPE-TO SUBJECT DATE MESSAGE-ID CONTENT-TRANSFER-ENCODING)] BODY.PEEK[]<0.120000>)`
       );
       const literals = extractLiterals(res);
       const headers = parseHeaders(literals[0] || '');
-      const to = decodeMimeEncodedWords(headers.get('to') || headers.get('delivered-to') || '');
+      const rawFrom = headers.get('from') || getHeaderFromRawResponse(res, 'From') || 'Unknown Sender';
+      const from = decodeMimeEncodedWords(rawFrom);
+      const rawTo = headers.get('to') || headers.get('delivered-to') || getHeaderFromRawResponse(res, 'To') || '';
+      const to = decodeMimeEncodedWords(rawTo);
       const recipientText = collectRecipientText(headers);
-      const matchesExact = recipientText.includes(address.toLowerCase());
-      const matchesDomain = domain ? recipientText.includes(`@${domain}`) : false;
-      if (!matchesExact && !matchesDomain) continue;
+      const normalizedAddress = address.toLowerCase().trim();
+      const recipientRaw = [
+        headers.get('to') || '',
+        headers.get('cc') || '',
+        headers.get('delivered-to') || '',
+        headers.get('x-original-to') || '',
+        headers.get('envelope-to') || ''
+      ].join(' ');
+      const recipientAddresses = extractEmailAddresses(`${recipientRaw} ${recipientText}`);
+      const fetchResponseText = res.toLowerCase();
+      const matchesAddress = recipientAddresses.includes(normalizedAddress)
+        || recipientText.includes(normalizedAddress)
+        || fetchResponseText.includes(normalizedAddress);
+      if (!matchesAddress) {
+        debug.recipientFiltered += 1;
+        continue;
+      }
 
-      const messageId = headers.get('message-id') || `${uid}:${headers.get('date') || ''}:${headers.get('subject') || ''}`;
-      const sourceId = `imap:${createHash('sha1').update(messageId).digest('hex')}`;
-      if (existingSourceIds.has(sourceId)) continue;
+      const messageIdHeader = (headers.get('message-id') || '').trim();
+      const messageIdentity = messageIdHeader || [
+        headers.get('date') || '',
+        headers.get('from') || '',
+        headers.get('to') || headers.get('delivered-to') || '',
+        headers.get('subject') || ''
+      ].join('|');
+      const sourceId = `imap:${createHash('sha1').update(messageIdentity).digest('hex')}`;
+      if (existingSourceIds.has(sourceId)) {
+        debug.duplicateFiltered += 1;
+        continue;
+      }
 
       const transferEncoding = headers.get('content-transfer-encoding') || '';
       const rawBody = literals[1] || literals[0] || '';
       const normalizedText = normalizeBodyText(rawBody, transferEncoding);
-      const safeText = normalizedText || decodeMimeEncodedWords(headers.get('subject') || '') || '(No preview available)';
+      const extractedHtml = extractHtmlFromRawBody(res) || extractHtmlFromAnyContent(res) || extractHtmlFromRawBody(rawBody) || extractHtmlFromAnyContent(rawBody);
+      const subject = decodeMimeEncodedWords(headers.get('subject') || getHeaderFromRawResponse(res, 'Subject') || '(No Subject)');
+      const safeText = buildInboxPreview(normalizedText || extractedHtml || subject);
+      const htmlContent = extractedHtml || (/<[^>]+>/.test(normalizedText) ? normalizedText : "");
+      const safeHtml = htmlContent || `<p>${escapeHtml(safeText)}</p>`;
       out.push({
         id: randomUUID(),
         sourceId,
-        from: decodeMimeEncodedWords(headers.get('from') || 'Unknown Sender'),
+        from,
         to,
-        subject: decodeMimeEncodedWords(headers.get('subject') || '(No Subject)'),
+        subject,
         text: safeText,
-        html: safeText,
+        html: safeHtml,
         attachments: [],
-        receivedAt: headers.get('date') ? new Date(headers.get('date')!).toISOString() : new Date().toISOString(),
+        receivedAt: parseReceivedAt(headers.get('date')),
         read: false
       });
-      if (Number.isFinite(uidNum) && uidNum > maxSeenUid) maxSeenUid = uidNum;
     }
     if (maxSeenUid > lastUid) {
       await storage.set(lastUidKey(address), String(maxSeenUid));
     }
     await runImapCommand(socket, 'a9', 'LOGOUT');
-    return out;
+    debug.returned = out.length;
+    return { emails: out, debug };
   } finally { socket.end(); }
 };
