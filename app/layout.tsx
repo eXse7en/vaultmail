@@ -23,7 +23,19 @@ export default function RootLayout({
       <body className="font-sans">
         <AdsenseScript />
         {children}
-        <Toaster position="top-right" theme="dark" duration={2000} />
+        <Toaster
+          position="top-center"
+          theme="dark"
+          duration={2000}
+          toastOptions={{
+            style: {
+              fontSize: '13px',
+              padding: '10px 16px',
+              width: 'auto',
+              maxWidth: '360px',
+            },
+          }}
+        />
       </body>
     </html>
   );
