@@ -720,7 +720,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
               )}
             </div>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center flex-wrap justify-center sm:justify-start">
             {/* Settings Button */}
             <Button
                 variant="ghost"
@@ -830,11 +830,11 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
                     )}
                 </AnimatePresence>
             </div>
-            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 w-full md:w-auto">
-              <Copy className="mr-2 h-4 w-4" /> {t.copy}
+            <Button onClick={copyAddress} variant="secondary" size="lg" className="h-12 px-3 md:px-4 text-sm md:text-base">
+              <Copy className="mr-1.5 md:mr-2 h-4 w-4" /> {t.copy}
             </Button>
-            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 border-white/10 hover:bg-white/5 w-full md:w-auto">
-              <RefreshCw className="mr-2 h-4 w-4" /> {t.newAlias}
+            <Button onClick={generateAddress} variant="outline" size="lg" className="h-12 px-3 md:px-4 border-white/10 hover:bg-white/5 text-sm md:text-base">
+              <RefreshCw className="mr-1.5 md:mr-2 h-4 w-4" /> {t.newAlias}
             </Button>
           </div>
         </div>
