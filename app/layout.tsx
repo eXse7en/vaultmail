@@ -27,12 +27,16 @@ export default function RootLayout({
           position="top-center"
           theme="dark"
           duration={2000}
+          visibleToasts={1}
           toastOptions={{
             style: {
               fontSize: '13px',
-              padding: '10px 16px',
+              padding: '8px 14px',
               width: 'auto',
-              maxWidth: '360px',
+              maxWidth: '320px',
+              textAlign: 'center',
+              left: '50%',
+              transform: 'translateX(-50%)',
             },
           }}
         />
