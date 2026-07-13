@@ -27,7 +27,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
   const [showMenu, setShowMenu] = useState(false);
   const [retentionSeconds, setRetentionSeconds] = useState(86400);
   const [customAppName, setCustomAppName] = useState<string | null>(null);
-  const [heroTitle, setHeroTitle] = useState('Temp Mail');
+  const [heroTitle, setHeroTitle] = useState('eXse7en');
   const [heroDescription, setHeroDescription] = useState('Spin up secure temporary inboxes in seconds. Bring your own domain or use the default.');
 
   useEffect(() => {

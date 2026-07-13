@@ -79,7 +79,7 @@ export function AdminDashboard() {
   const [brandingSaving, setBrandingSaving] = useState(false);
   const [domainsSaving, setDomainsSaving] = useState(false);
   const [appName, setAppName] = useState(DEFAULT_APP_NAME);
-  const [headerTitle, setHeaderTitle] = useState('Temp Mail');
+  const [headerTitle, setHeaderTitle] = useState('eXse7en');
   const [headerDescription, setHeaderDescription] = useState('Spin up secure temporary inboxes in seconds. Bring your own domain or use the default.');
   const [homepageLockEnabled, setHomepageLockEnabled] = useState(false);
   const [homepageLockPassword, setHomepageLockPassword] = useState('');
@@ -510,7 +510,7 @@ export function AdminDashboard() {
                 Admin Dashboard
               </p>
               <h1 className="text-3xl font-semibold text-white">
-                {headerTitle || "Temp Mail"}
+                {headerTitle || "eXse7en"}
               </h1>
               <p className="text-sm text-white/70">
                 {headerDescription || 'Spin up secure temporary inboxes in seconds. Bring your own domain or use the default.'}
@@ -657,7 +657,7 @@ export function AdminDashboard() {
                 <Input
                   value={headerTitle}
                   onChange={(event) => setHeaderTitle(event.target.value)}
-                  placeholder="Temp Mail"
+                  placeholder="eXse7en"
                   className="mt-3 bg-black/30 text-white placeholder:text-white/40"
                 />
                 <label className="mt-4 block text-xs font-semibold uppercase tracking-widest text-white/60">Deskripsi bawah header (opsional)</label>

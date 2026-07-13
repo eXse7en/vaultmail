@@ -13,7 +13,7 @@ const translations = {
   en: {
     appName: 'eXse7en',
     github: 'GitHub',
-    heroTitle: 'Temp Mail',
+    heroTitle: 'eXse7en',
     heroTitleSuffix: 'For Developer',
     heroSubtitle:
       'Spin up secure temporary inboxes in seconds. Bring your own domain or use the default.',
@@ -209,7 +209,7 @@ const translations = {
   id: {
     appName: 'eXse7en',
     github: 'GitHub',
-    heroTitle: 'Temp Mail',
+    heroTitle: 'eXse7en',
     heroTitleSuffix: 'For Developer',
     heroSubtitle:
       'Buat inbox sementara yang aman dalam hitungan detik. Gunakan domain sendiri atau domain bawaan.',
