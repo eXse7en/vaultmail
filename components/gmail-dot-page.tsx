@@ -160,7 +160,7 @@ export function GmailDotPage() {
                         {t.menuTools}
                       </Link>
                       <Link
-                        href="https://github.com/yasirarism"
+                        href="https://github.com/eXse7en"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
@@ -178,14 +178,14 @@ export function GmailDotPage() {
         </div>
       </header>
 
-      <section className="max-w-5xl mx-auto px-4 py-16 w-full">
-        <div className="glass-card rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 space-y-6">
+      <section className="w-full px-4 py-10 md:py-16 max-w-5xl mx-auto">
+        <div className="glass-card rounded-2xl border border-white/10 bg-white/5 p-5 md:p-8 space-y-5 md:space-y-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-white">
-              <MailPlus className="h-5 w-5 text-blue-300" />
-              <h1 className="text-2xl font-semibold">{t.gmailDotTitle}</h1>
+              <MailPlus className="h-5 w-5 text-blue-300 shrink-0" />
+              <h1 className="text-xl md:text-2xl font-semibold">{t.gmailDotTitle}</h1>
             </div>
-            <p className="text-muted-foreground max-w-2xl">{t.gmailDotSubtitle}</p>
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{t.gmailDotSubtitle}</p>
           </div>
 
           <div className="rounded-xl border border-white/10 bg-black/40 p-4 space-y-3">

@@ -117,7 +117,7 @@ export function ApiAccessPage() {
                         {t.menuTools}
                       </Link>
                       <Link
-                        href="https://github.com/yasirarism"
+                        href="https://github.com/eXse7en"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
@@ -135,23 +135,23 @@ export function ApiAccessPage() {
         </div>
       </header>
 
-      <section className="max-w-6xl mx-auto px-4 py-16 w-full">
-        <div className="glass-card rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-            <div className="space-y-3">
+      <section className="w-full px-4 py-10 md:py-16 max-w-6xl mx-auto">
+        <div className="glass-card rounded-2xl border border-white/10 bg-white/5 p-5 md:p-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="space-y-2">
               <div className="flex items-center gap-2 text-white">
-                <Code2 className="h-5 w-5 text-blue-300" />
-                <h1 className="text-2xl font-semibold">{t.apiAccessTitle}</h1>
+                <Code2 className="h-5 w-5 text-blue-300 shrink-0" />
+                <h1 className="text-xl md:text-2xl font-semibold">{t.apiAccessTitle}</h1>
               </div>
-              <p className="text-muted-foreground max-w-2xl">
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {t.apiAccessSubtitle}
               </p>
             </div>
             <Link
-              href="https://github.com/yasirarism"
+              href="https://github.com/eXse7en"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+              className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 self-start"
             >
               {t.apiAccessCta}
             </Link>
@@ -161,9 +161,9 @@ export function ApiAccessPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
                 {t.apiAccessEndpointsTitle}
               </p>
-              <ul className="mt-3 space-y-2 text-xs font-mono text-blue-100">
+              <ul className="mt-3 space-y-2 text-xs font-mono text-blue-100 break-all">
                 <li>GET /api/inbox?address=nama@domain.com</li>
-                <li>GET /api/download?address=nama@domain.com&amp;emailId=uuid&amp;type=email</li>
+                <li className="break-all">GET /api/download?address=nama@domain.com&amp;emailId=uuid&amp;type=email</li>
                 <li>GET /api/retention</li>
               </ul>
             </div>
@@ -171,10 +171,10 @@ export function ApiAccessPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
                 {t.apiAccessWebhookTitle}
               </p>
-              <p className="mt-3 text-sm text-white/80">
+              <p className="mt-3 text-sm text-white/80 font-mono">
                 POST /api/webhook
               </p>
-              <p className="mt-2 text-xs text-muted-foreground">
+              <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
                 {t.apiAccessWebhookHint}
               </p>
             </div>
