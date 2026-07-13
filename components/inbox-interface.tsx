@@ -623,7 +623,7 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 items-start">
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex gap-2">
               <div className="relative flex-1">
