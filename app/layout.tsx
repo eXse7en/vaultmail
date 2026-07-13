@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className="font-sans">
         <AdsenseScript />
         {children}
-        <Toaster position="top-right" theme="dark" />
+        <Toaster position="top-right" theme="dark" duration={2000} />
       </body>
     </html>
   );
