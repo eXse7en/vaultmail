@@ -11,7 +11,7 @@ export const DEFAULT_LOCALE = (() => {
 
 const translations = {
   en: {
-    appName: 'YS Mail',
+    appName: 'eXse7en',
     github: 'GitHub',
     heroTitle: 'Temp Mail',
     heroTitleSuffix: 'For Developer',
@@ -207,7 +207,7 @@ const translations = {
     twoFaNext: 'Next OTP',
   },
   id: {
-    appName: 'YS Mail',
+    appName: 'eXse7en',
     github: 'GitHub',
     heroTitle: 'Temp Mail',
     heroTitleSuffix: 'For Developer',

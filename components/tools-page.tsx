@@ -118,7 +118,7 @@ export function ToolsPage() {
                         {t.menuTools}
                       </Link>
                       <Link
-                        href="https://github.com/yasirarism"
+                        href="https://github.com/eXse7en"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
