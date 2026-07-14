@@ -176,14 +176,29 @@ export function ApiAccessPage() {
               {t.apiAccessCta}
             </Link>
           </div>
+          <div className="rounded-xl border border-white/10 bg-black/40 p-4 mb-6">
+            <div className="flex items-center gap-2 text-xs text-emerald-300 font-semibold uppercase tracking-wider mb-2">
+              <Globe className="h-4 w-4" />
+              Default Domain
+            </div>
+            <p className="font-mono text-sm text-white">
+              exse7en.dpdns.org
+            </p>
+            <p className="text-xs text-white/50 mt-1">
+              Gunakan domain ini langsung. Atau minta admin menambahkan domain kustom.
+              <br />
+              <span className="text-white/30">Use this domain directly, or ask the admin to add a custom domain.</span>
+            </p>
+          </div>
+
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl border border-white/10 bg-black/40 p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
                 {t.apiAccessEndpointsTitle}
               </p>
               <ul className="mt-3 space-y-2 text-xs font-mono text-blue-100 break-all">
-                <li>GET /api/inbox?address=nama@domain.com</li>
-                <li className="break-all">GET /api/download?address=nama@domain.com&amp;emailId=uuid&amp;type=email</li>
+                <li>GET /api/inbox?address=nama@exse7en.dpdns.org</li>
+                <li className="break-all">GET /api/download?address=nama@exse7en.dpdns.org&amp;emailId=uuid&amp;type=email</li>
                 <li>GET /api/retention</li>
               </ul>
             </div>
@@ -342,9 +357,9 @@ export function ApiAccessPage() {
                     <p className="text-sm font-semibold text-white">Gunakan domain yang sudah tersedia</p>
                   </div>
                   <p className="text-xs text-white/60 leading-relaxed">
-                    Admin biasanya sudah menyediakan domain default. Cukup pilih dari dropdown dan langsung pakai. <strong>Tidak perlu setup apapun.</strong>
+                    Domain default <span className="font-mono text-emerald-300">exse7en.dpdns.org</span> sudah siap pakai. Cukup pilih dari dropdown, buat alamat kamu, dan mulai menerima email. <strong>Tidak perlu setup apapun.</strong>
                     <br />
-                    <span className="text-white/40">The admin has already provided default domains. Just pick one from the dropdown and start using it. No setup needed.</span>
+                    <span className="text-white/40">The default domain <span className="font-mono">exse7en.dpdns.org</span> is ready to use. Just select it from the dropdown, create your address, and start receiving emails. No setup needed.</span>
                   </p>
                 </div>
 

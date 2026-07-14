@@ -287,7 +287,7 @@ GET /api/domains
 **Response**
 ```json
 {
-  "domains": ["mail.example.com", "ysweb.biz.id"]
+  "domains": ["mail.example.com", "exse7en.dpdns.org"]
 }
 ```
 

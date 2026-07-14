@@ -1,4 +1,4 @@
-export const DEFAULT_DOMAIN_FALLBACK = 'ysweb.biz.id';
+export const DEFAULT_DOMAIN_FALLBACK = 'exse7en.dpdns.org';
 
 export const DEFAULT_DOMAINS: string[] = [];
 
