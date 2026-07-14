@@ -231,6 +231,7 @@ export function ApiAccessPage() {
             </div>
           </div>
         </div>
+      </div>
       </section>
     </main>
   );
