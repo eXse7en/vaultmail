@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { CalendarClock, Code2, Coins, Globe, Menu, Shield, Wrench } from 'lucide-react';
+import { CalendarClock, Code2, Coins, Globe, Menu, Shield, Wrench, ShoppingCart, MessageCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -150,6 +150,26 @@ export function RefundCalculatorPage() {
                         <Wrench className="h-4 w-4 text-orange-300" />
                         {t.menuTools}
                       </Link>
+                      <a
+                        href="https://store.exse7en.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                        onClick={() => setShowMenu(false)}
+                      >
+                        <ShoppingCart className="h-4 w-4 text-emerald-300" />
+                        Store
+                      </a>
+                      <a
+                        href="https://t.me/exse7en_bot"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                        onClick={() => setShowMenu(false)}
+                      >
+                        <MessageCircle className="h-4 w-4 text-sky-300" />
+                        Order Bot
+                      </a>
                       <Link
                         href="https://github.com/eXse7en"
                         target="_blank"

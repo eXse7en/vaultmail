@@ -1,7 +1,7 @@
 'use client';
 
 import { InboxInterface } from "@/components/inbox-interface";
-import { Menu, Shield, Zap, Globe, Code2, Wrench } from "lucide-react";
+import { Menu, Shield, Zap, Globe, Code2, Wrench, ShoppingCart, MessageCircle } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -182,6 +182,26 @@ export function HomePage({ initialAddress }: HomePageProps) {
                           {t.menuTools}
                         </a>
                         <a
+                          href="https://store.exse7en.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          <ShoppingCart className="h-4 w-4 text-emerald-300" />
+                          Store
+                        </a>
+                        <a
+                          href="https://t.me/exse7en_bot"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          <MessageCircle className="h-4 w-4 text-sky-300" />
+                          Order Bot
+                        </a>
+                        <a
                           href="https://github.com/eXse7en"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -239,8 +259,53 @@ export function HomePage({ initialAddress }: HomePageProps) {
 
       </div>
 
-      <footer className="border-t border-white/5 py-8 mt-12 text-center text-muted-foreground text-sm">
+      {/* Store Banner */}
+      <div className="max-w-6xl mx-auto px-4 mt-16 w-full">
+        <a
+          href="https://store.exse7en.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group block rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-900/30 via-green-900/20 to-emerald-900/30 p-5 md:p-6 text-center transition-all hover:border-emerald-400/40 hover:from-emerald-800/40 hover:via-green-800/30 hover:to-emerald-800/40"
+        >
+          <div className="flex items-center justify-center gap-3">
+            <ShoppingCart className="h-6 w-6 text-emerald-400" />
+            <div>
+              <p className="text-base md:text-lg font-semibold text-white">
+                eXse7en Store
+              </p>
+              <p className="text-sm text-emerald-200/70">
+                Cek produk digital, tools, dan layanan eksklusif
+              </p>
+            </div>
+            <MessageCircle className="h-5 w-5 text-emerald-400/50 group-hover:text-emerald-300 transition-colors" />
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-4 text-xs text-white/50">
+            <span className="flex items-center gap-1">
+              <ShoppingCart className="h-3 w-3" /> store.exse7en.com
+            </span>
+            <span className="hidden sm:inline text-white/20">|</span>
+            <span className="flex items-center gap-1">
+              <MessageCircle className="h-3 w-3" /> t.me/exse7en_bot
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <footer className="border-t border-white/5 py-8 mt-12 text-center text-muted-foreground text-sm space-y-2">
         <p>© 2026 {resolvedAppName}. Email fetch supports Webhook & IMAP.</p>
+        <div className="flex items-center justify-center gap-4 text-xs">
+          <a href="https://store.exse7en.com" target="_blank" rel="noopener noreferrer" className="text-emerald-400/70 hover:text-emerald-300 transition-colors">
+            Store
+          </a>
+          <span className="text-white/20">|</span>
+          <a href="https://t.me/exse7en_bot" target="_blank" rel="noopener noreferrer" className="text-sky-400/70 hover:text-sky-300 transition-colors">
+            Order Bot
+          </a>
+          <span className="text-white/20">|</span>
+          <a href="https://github.com/eXse7en" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white/60 transition-colors">
+            GitHub
+          </a>
+        </div>
       </footer>
     </main>
   );
