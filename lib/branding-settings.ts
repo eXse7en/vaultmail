@@ -4,6 +4,7 @@ import { DEFAULT_APP_NAME, normalizeAppName } from '@/lib/branding';
 
 type BrandingSettings = {
   appName?: string;
+  headerTitle?: string;
 };
 
 const parseBrandingSettings = (value: unknown): BrandingSettings | null => {
@@ -30,4 +31,11 @@ export const getStoredAppName = async () => {
   const settings = parseBrandingSettings(stored);
 
   return normalizeAppName(settings?.appName) || DEFAULT_APP_NAME;
+};
+
+export const getStoredHeaderTitle = async () => {
+  if (!process.env.MONGODB_URI) return null;
+  const stored = await storage.get(BRANDING_SETTINGS_KEY);
+  const settings = parseBrandingSettings(stored);
+  return settings?.headerTitle?.trim() || null;
 };

@@ -3,13 +3,27 @@ import './globals.css';
 import { DEFAULT_LOCALE } from '@/lib/i18n';
 import { Toaster } from 'sonner';
 import AdsenseScript from '@/components/AdsenseScript';
-import { getStoredAppName } from '@/lib/branding-settings';
+import { getStoredAppName, getStoredHeaderTitle } from '@/lib/branding-settings';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const appName = await getStoredAppName();
+  const [appName, headerTitle] = await Promise.all([
+    getStoredAppName(),
+    getStoredHeaderTitle(),
+  ]);
+  const title = headerTitle || appName || 'eXse7en';
   return {
-    title: `${appName} - Secure Disposable Email`,
-    description: 'Self Hosted Temporary email service with custom domains.'
+    title: `${title} - Secure Disposable Email`,
+    description: 'Secure disposable email service. Privacy first, spam free.',
+    openGraph: {
+      title: `${title} - Secure Disposable Email`,
+      description: 'Secure disposable email service. Privacy first, spam free.',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${title} - Secure Disposable Email`,
+      description: 'Secure disposable email service.',
+    },
   };
 }
 
