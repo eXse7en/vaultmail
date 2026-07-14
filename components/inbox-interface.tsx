@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { RefreshCw, Copy, Mail, Loader2, ArrowRight, Trash2, Shield, History, ChevronDown, X, Settings2, Download, Search } from 'lucide-react';
+import { RefreshCw, Copy, Mail, Loader2, ArrowRight, Trash2, Shield, History, X, Download, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import { cn, getSenderInfo } from '@/lib/utils';
@@ -31,8 +31,6 @@ interface EmailAttachment {
   contentId?: string;
 }
 
-import { SettingsDialog } from './settings-dialog';
-
 interface InboxInterfaceProps {
     initialAddress?: string;
     locale?: Locale;
@@ -53,10 +51,8 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [systemDomains, setSystemDomains] = useState<string[]>([]);
-  const [savedDomains, setSavedDomains] = useState<string[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
-  const [isAddDomainOpen, setIsAddDomainOpen] = useState(false);
   const [showDomainMenu, setShowDomainMenu] = useState(false);
   const [domainExpiration, setDomainExpiration] = useState<string | null>(null);
   const [domainStatusLoading, setDomainStatusLoading] = useState(false);
@@ -344,22 +340,15 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
 
   useEffect(() => {
     if (systemDomains.length === 0) return;
-    const savedRaw = localStorage.getItem('dispo_domains');
-    const savedList = savedRaw ? JSON.parse(savedRaw) : [];
-    const customDomains = Array.isArray(savedList)
-      ? savedList.filter((item) => !systemDomains.includes(item))
-      : [];
-    const combined = normalizeDomains([...systemDomains, ...customDomains]);
-    setSavedDomains(combined);
-    localStorage.setItem('dispo_domains', JSON.stringify(customDomains));
-  }, [normalizeDomains, systemDomains]);
+    setDomain((prev) => {
+      if (!prev || !systemDomains.includes(prev)) {
+        return systemDomains[0];
+      }
+      return prev;
+    });
+  }, [systemDomains]);
 
-  useEffect(() => {
-    if (savedDomains.length === 0) return;
-    if (!savedDomains.includes(domain)) {
-      setDomain(savedDomains[0]);
-    }
-  }, [domain, savedDomains]);
+  const savedDomains = systemDomains;
 
   useEffect(() => {
     if (!address) return;
@@ -721,17 +710,6 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
             </div>
           </div>
           <div className="flex gap-2 items-center flex-wrap justify-center sm:justify-start">
-            {/* Settings Button */}
-            <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsAddDomainOpen(true)}
-                className="h-12 w-12 border border-white/10 hover:bg-white/5 text-purple-400 hover:text-purple-300"
-                title={t.settingsTitle}
-            >
-                <Settings2 className="h-5 w-5" />
-            </Button>
-
             <div className="relative">
                 <Button 
                     onClick={() => setShowHistory(!showHistory)} 
@@ -839,21 +817,6 @@ export function InboxInterface({ initialAddress, locale, retentionLabel }: Inbox
           </div>
         </div>
 
-        <SettingsDialog
-            open={isAddDomainOpen}
-            onOpenChange={setIsAddDomainOpen}
-            systemDomains={systemDomains}
-            savedDomains={savedDomains}
-            translations={t}
-            onUpdateDomains={(newDomains) => {
-                const customDomains = newDomains.filter(
-                    (item) => !systemDomains.includes(item)
-                );
-                const combined = normalizeDomains([...systemDomains, ...customDomains]);
-                setSavedDomains(combined);
-                localStorage.setItem('dispo_domains', JSON.stringify(customDomains));
-            }}
-        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[88vh]">

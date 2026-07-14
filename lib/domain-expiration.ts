@@ -4,7 +4,7 @@ const DOMAIN_EXPIRATION_CACHE_SECONDS = 60 * 60 * 24;
 const WHOIS_SEARCH_API_BASE_URL = 'https://whois-search.vercel.app/api/lookup';
 const WHOIS_SEARCH_API_HEADERS = {
   accept: 'application/json',
-  'user-agent': 'VaultMail/1.0 (domain-expiration-check)'
+  'user-agent': 'eXse7en/1.0 (domain-expiration-check)'
 };
 
 type DomainExpirationRecord = {

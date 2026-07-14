@@ -184,7 +184,7 @@ export function TwoFactorPage({ initialSecret = '' }: TwoFactorPageProps) {
         if (active) setQrCodeDataUrl('');
         return;
       }
-      const issuer = resolvedAppName || 'VaultMail';
+      const issuer = resolvedAppName || 'eXse7en';
       const encodedIssuer = encodeURIComponent(issuer);
       const encodedSecret = encodeURIComponent(totpSecret.replace(/\s+/g, ''));
       const otpAuth = `otpauth://totp/${encodedIssuer}?secret=${encodedSecret}&issuer=${encodedIssuer}`;

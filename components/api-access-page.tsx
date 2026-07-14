@@ -199,6 +199,208 @@ export function ApiAccessPage() {
               </p>
             </div>
           </div>
+
+          {/* Tutorial Custom Domain */}
+          <div className="mt-6 rounded-xl border border-emerald-500/20 bg-gradient-to-br from-emerald-900/20 via-green-900/10 to-emerald-900/20 p-5 md:p-6">
+            <div className="flex items-center gap-2 text-white mb-4">
+              <Globe className="h-5 w-5 text-emerald-400 shrink-0" />
+              <h2 className="text-lg md:text-xl font-semibold">🌐 Custom Domain Guide</h2>
+            </div>
+            <p className="text-sm text-emerald-200/80 mb-4 leading-relaxed">
+              Ingin pakai domain sendiri untuk alamat email sementara? Ikuti panduan sesuai peran kamu.
+              <br />
+              Want to use your own domain for temporary email addresses? Follow the guide for your role.
+            </p>
+
+            {/* Tab Selector */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-semibold text-emerald-300">
+                👑 Admin / Pemilik Server
+              </div>
+              <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs font-semibold text-blue-300">
+                👤 User Biasa
+              </div>
+            </div>
+
+            {/* ========== ADMIN SECTION ========== */}
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-400 text-sm">👑</span>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Untuk Admin / Pemilik Server</h3>
+              </div>
+              <p className="text-xs text-white/50 leading-relaxed">
+                Kamu punya akses ke Cloudflare Dashboard dan bisa deploy worker.
+                Ikuti langkah-langkah ini agar domain bisa menerima email.
+              </p>
+
+              <div className="space-y-3">
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">1</span>
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-sm font-semibold text-white">Add domain to Cloudflare</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Daftarkan domain ke Cloudflare dan arahkan nameserver-nya.
+                        <br />
+                        <span className="text-white/40">Register your domain on Cloudflare and point its nameservers.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">2</span>
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-sm font-semibold text-white">Enable Email Routing</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Cloudflare Dashboard → <span className="text-emerald-300">Email</span> → <span className="text-emerald-300">Email Routing</span>, aktifkan.
+                        <br />
+                        <span className="text-white/40">Enable Email Routing in Cloudflare Dashboard.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">3</span>
+                    <div className="space-y-2 min-w-0">
+                      <p className="text-sm font-semibold text-white">Verify MX Records</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Pastikan MX Record domain sudah sesuai:
+                      </p>
+                      <div className="rounded-lg bg-black/60 p-3 font-mono text-xs text-blue-100 space-y-1 overflow-x-auto">
+                        <p className="whitespace-nowrap">Type: <span className="text-emerald-300">MX</span> | Name: <span className="text-emerald-300">@</span> | Priority: <span className="text-emerald-300">10</span> → mx1.cloudflare.net</p>
+                        <p className="whitespace-nowrap">Type: <span className="text-emerald-300">MX</span> | Name: <span className="text-emerald-300">@</span> | Priority: <span className="text-emerald-300">20</span> → mx2.cloudflare.net</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">4</span>
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-sm font-semibold text-white">Deploy Cloudflare Worker</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Deploy worker dari folder <span className="font-mono text-emerald-300">worker/</span> dengan <span className="font-mono text-emerald-300">WEBHOOK_URL</span> mengarah ke <span className="font-mono text-emerald-300">https://appkamu.vercel.app/api/webhook</span>.
+                        <br />
+                        <span className="text-white/40">Deploy the worker from the worker/ directory with WEBHOOK_URL pointing to your webhook endpoint.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">5</span>
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-sm font-semibold text-white">Create Catch-All Route → Worker</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Cloudflare Email Routing → <span className="text-emerald-300">Routes</span> → buat <span className="text-emerald-300">Catch-All</span> → action <span className="text-emerald-300">Send to Worker</span> → pilih worker kamu.
+                        <br />
+                        <span className="text-white/40">Create a Catch-All route and set action to Send to Worker.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-black/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">6</span>
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-sm font-semibold text-white">Add domain to Admin Dashboard</p>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Buka <span className="text-purple-300">Admin Dashboard (/admin)</span> → <span className="text-purple-300">Manajemen Domain</span> → tambahkan domain kamu. Dengan ini, domain tersedia untuk <strong>semua user</strong>.
+                        <br />
+                        <span className="text-white/40">Go to Admin Dashboard → Manajemen Domain → add your domain. This makes it available to all users.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ========== USER SECTION ========== */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-blue-400 text-sm">👤</span>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Untuk User Biasa</h3>
+              </div>
+              <p className="text-xs text-white/50 leading-relaxed">
+                Kamu tidak punya akses ke worker milik admin. Ada beberapa opsi:
+                <br />
+                <span className="text-white/40">You don't have access to the admin's worker. Here are your options:</span>
+              </p>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                {/* Opsi A */}
+                <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-400">A</span>
+                    <p className="text-sm font-semibold text-white">Gunakan domain yang sudah tersedia</p>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Admin biasanya sudah menyediakan domain default. Cukup pilih dari dropdown dan langsung pakai. <strong>Tidak perlu setup apapun.</strong>
+                    <br />
+                    <span className="text-white/40">The admin has already provided default domains. Just pick one from the dropdown and start using it. No setup needed.</span>
+                  </p>
+                </div>
+
+                {/* Opsi B */}
+                <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs font-bold text-blue-400">B</span>
+                    <p className="text-sm font-semibold text-white">Forward ke Email + IMAP (jika tersedia)</p>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Jika admin sudah mengaktifkan IMAP Fetch, kamu bisa arahkan email dari domain kamu ke alamat IMAP yang dikonfigurasi. Caranya:
+                  </p>
+                  <ol className="mt-2 space-y-1 text-xs text-white/50 list-decimal list-inside">
+                    <li>Add domain ke Cloudflare, aktifkan Email Routing</li>
+                    <li>Buat Catch-All Route → action <span className="text-emerald-300">Send to Email</span></li>
+                    <li>Masukkan alamat email IMAP yang sudah disetup admin</li>
+                    <li>Email akan otomatis masuk ke inbox aplikasi via IMAP sync</li>
+                  </ol>
+                </div>
+              </div>
+
+              {/* Opsi C */}
+              <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-400">C</span>
+                  <div className="space-y-1 min-w-0">
+                    <p className="text-sm font-semibold text-white">Minta Admin untuk menambahkan domain kamu</p>
+                    <p className="text-xs text-white/60 leading-relaxed">
+                      Cara paling mudah. Hubungi admin dan minta domain kamu ditambahkan ke <span className="text-purple-300">Admin Dashboard</span>. 
+                      Setelah itu, kamu tinggal pilih domain dari dropdown dan langsung bisa pakai — tanpa perlu setup teknis apapun.
+                      <br />
+                      <span className="text-white/40">The easiest way. Ask the admin to add your domain to the Admin Dashboard. Once added, you can select it from the dropdown without any technical setup.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Important Note */}
+            <div className="mt-6 rounded-xl border border-amber-400/20 bg-amber-500/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-amber-400 text-sm shrink-0 mt-0.5">⚠️</span>
+                <div className="space-y-1 text-xs text-amber-200/80 leading-relaxed">
+                  <p className="font-semibold text-amber-200">Penting / Important:</p>
+                  <p>
+                    Menambahkan domain di aplikasi ini <strong>hanya</strong> membuat domain muncul di dropdown. 
+                    Agar email bisa masuk, domain harus punya MX Record yang benar dan Email Routing yang aktif — terlepas dari siapapun yang melakukan setup.
+                  </p>
+                  <p className="text-amber-200/60">
+                    Adding a domain to this app <strong>only</strong> makes it appear in the dropdown.
+                    For emails to arrive, the domain must have correct MX records and active Email Routing — regardless of who sets it up.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

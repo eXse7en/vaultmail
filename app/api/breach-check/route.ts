@@ -65,7 +65,7 @@ export async function GET(request: Request) {
       `https://api.xposedornot.com/v1/breach-analytics?email=${encodeURIComponent(email)}`,
       {
         headers: {
-          'User-Agent': 'VaultMail',
+          'User-Agent': 'eXse7en',
         },
       }
     );
