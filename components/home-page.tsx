@@ -182,7 +182,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
                           {t.menuTools}
                         </a>
                         <a
-                          href="https://store.exse7en.com"
+                          href="https://exse7en.com"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
@@ -262,7 +262,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
       {/* Store Banner */}
       <div className="max-w-6xl mx-auto px-4 mt-16 w-full">
         <a
-          href="https://sexse7en.com"
+          href="https://exse7en.com"
           target="_blank"
           rel="noopener noreferrer"
           className="group block rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-900/30 via-green-900/20 to-emerald-900/30 p-5 md:p-6 text-center transition-all hover:border-emerald-400/40 hover:from-emerald-800/40 hover:via-green-800/30 hover:to-emerald-800/40"
