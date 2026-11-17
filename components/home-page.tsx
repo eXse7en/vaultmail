@@ -262,7 +262,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
       {/* Store Banner */}
       <div className="max-w-6xl mx-auto px-4 mt-16 w-full">
         <a
-          href="https://store.exse7en.com"
+          href="https://sexse7en.com"
           target="_blank"
           rel="noopener noreferrer"
           className="group block rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-900/30 via-green-900/20 to-emerald-900/30 p-5 md:p-6 text-center transition-all hover:border-emerald-400/40 hover:from-emerald-800/40 hover:via-green-800/30 hover:to-emerald-800/40"
@@ -281,7 +281,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
           </div>
           <div className="mt-3 flex items-center justify-center gap-4 text-xs text-white/50">
             <span className="flex items-center gap-1">
-              <ShoppingCart className="h-3 w-3" /> store.exse7en.com
+              <ShoppingCart className="h-3 w-3" /> exse7en.com
             </span>
             <span className="hidden sm:inline text-white/20">|</span>
             <span className="flex items-center gap-1">
@@ -294,7 +294,7 @@ export function HomePage({ initialAddress }: HomePageProps) {
       <footer className="border-t border-white/5 py-8 mt-12 text-center text-muted-foreground text-sm space-y-2">
         <p>© 2026 {resolvedAppName}. Email fetch supports Webhook & IMAP.</p>
         <div className="flex items-center justify-center gap-4 text-xs">
-          <a href="https://store.exse7en.com" target="_blank" rel="noopener noreferrer" className="text-emerald-400/70 hover:text-emerald-300 transition-colors">
+          <a href="https://exse7en.com" target="_blank" rel="noopener noreferrer" className="text-emerald-400/70 hover:text-emerald-300 transition-colors">
             Store
           </a>
           <span className="text-white/20">|</span>
