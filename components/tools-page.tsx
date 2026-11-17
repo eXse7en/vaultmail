@@ -118,7 +118,7 @@ export function ToolsPage() {
                         {t.menuTools}
                       </Link>
                       <a
-                        href="https://store.exse7en.com"
+                        href="https://exse7en.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/10"
